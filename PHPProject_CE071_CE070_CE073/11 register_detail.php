@@ -62,13 +62,42 @@
 </head>
 
 <body>
+
+<?php
+require_once '1 connection.php';
+
+try {
+	$username = $_SESSION['username'];
+	$amount = 0;
+	$query = $dbhandler->query('select * from register');
+	while ($r = $query->fetch()) {
+		if ($r['username'] == $username) {
+			$firstname = $r['firstname'];
+			$lastname = $r['lastname'];
+			$m_id = $r['managment_id'];
+		}
+	}
+}catch (PDOException $e) {
+    echo $e->getMessage();
+    die();
+}
+?>
+
 <div class="topnav">
         <a href="#" class="navbar-brand">
             <img src="logo/v.svg" height="15" alt="Veerata">
         </a> 
   <a >veerata</a > 
-  <a href="7 charity_head.php"><i class="fa fa-fw fa-home"></i>Home</a>
-  <a href="15 proj.php">This Project</a >
+  <?php
+	if($m_id == 0)
+	{
+		echo "<a href='8 charity.php'><i class='fa fa-fw fa-home'></i>Home</a>";
+	}
+	else
+	{
+		echo "<a href='7 charity_head.php'><i class='fa fa-fw fa-home'></i>Home</a>";
+	}
+  ?>  <a href="15 proj.php">This Project</a >
   <a href="14 contact.php">About us</a>
   <div class="topnav-right">
   	<a href="13 logout.php">Logout</a>
